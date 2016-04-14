@@ -2,7 +2,7 @@
 /**
  * Strategy default
  */
-class Strategy_Default extends Strategy_Abstract
+class Strategy_Nearest extends Strategy_Abstract
 {
     /**
      * Construct
@@ -10,10 +10,10 @@ class Strategy_Default extends Strategy_Abstract
     public function __construct()
     {
         $this->_checkPoints = array(
-            new Strategy_Check_Free(),
-            new Strategy_Check_Alreadymovingtofloor(),
             new Strategy_Check_Distancetofloor(),
         );
     }
 }
+
+
 

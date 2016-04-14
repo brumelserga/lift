@@ -5,6 +5,12 @@
 class Lift implements ILift
 {
     /**
+     *
+     * @var int
+     */
+    public $id;
+    
+    /**
      * @var int
      */
     protected $_status;
@@ -21,13 +27,33 @@ class Lift implements ILift
     
     /**
      * 
+     * @param int $id
      * @param int|null $status
      * @param int|null $currentFloor
      */
-    public function __construct($status = null, $currentFloor = null)
+    public function __construct($id, $status = null, $currentFloor = null)
     {
+        $this->id            = $id;
         $this->_status       = !is_null($status) ? $status : self::STATUS_FREE;
         $this->_currentFloor = !is_null($currentFloor) ? $currentFloor : 1;
+    }
+    
+    /**
+     * 
+     * @param int $floor
+     * @return boolean
+     */
+    public function canBeCalled($floor)
+    {
+        $result = false;
+        if ($this->isFree()) {
+            $result = true;
+        }
+        
+        if ($this->isMovingDown() && $this->getCurrentFloor() > $floor) {
+            $result = true;
+        }
+        return $result;
     }
     
     /**
@@ -36,7 +62,9 @@ class Lift implements ILift
      */
     public function moveTo($floor)
     {
-        /** start moving to $floor */
+        echo sprintf('------%sLift #%s start moving to your floor%s-------%s',
+            PHP_EOL, $this->id, PHP_EOL, PHP_EOL
+        );
     }
     
     /**
@@ -72,7 +100,7 @@ class Lift implements ILift
      */
     public function isMovingDown()
     {
-        return $this->_status == self::STATUS_DOWN;
+        return $this->_status == self::STATUS_MOVING_DOWN;
     }
     
     /**
@@ -81,6 +109,15 @@ class Lift implements ILift
      */
     public function isMovingUp()
     {
-        return $this->_status == self::STATUS_UP;
+        return $this->_status == self::STATUS_MOVING_UP;
+    }
+    
+    /**
+     * 
+     * @return bool
+     */
+    public function getCurrentFloor()
+    {
+        return $this->_currentFloor;
     }
 }

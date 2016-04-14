@@ -4,8 +4,15 @@ interface ILift
     /**
      * 
      * @param int $floor
+     * @return boolean
      */
-    public function moveTo($floor);
+    public function canBeCalled($floor);
+
+    /**
+     * 
+     * @return bool
+     */
+    public function getCurrentFloor();
     
     /**
      * 

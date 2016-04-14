@@ -1,8 +1,8 @@
 <?php
 /**
- * Strategy default
+ * Strategy free
  */
-class Strategy_Default extends Strategy_Abstract
+class Strategy_Free extends Strategy_Abstract
 {
     /**
      * Construct
@@ -11,8 +11,6 @@ class Strategy_Default extends Strategy_Abstract
     {
         $this->_checkPoints = array(
             new Strategy_Check_Free(),
-            new Strategy_Check_Alreadymovingtofloor(),
-            new Strategy_Check_Distancetofloor(),
         );
     }
 }
