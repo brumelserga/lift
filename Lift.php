@@ -58,12 +58,12 @@ class Lift implements ILift
     
     /**
      * 
-     * @param type $floor
+     * @param int $floor
      */
     public function moveTo($floor)
     {
-        echo sprintf('------%sLift #%s start moving to your floor%s-------%s',
-            PHP_EOL, $this->id, PHP_EOL, PHP_EOL
+        echo sprintf('------%sLift #%s start moving to your floor (#%d)%s-------%s',
+            PHP_EOL, $this->id, $floor, PHP_EOL, PHP_EOL
         );
     }
     
@@ -78,7 +78,7 @@ class Lift implements ILift
     
     /**
      * 
-     * @return void
+     * @return int
      */
     public function getStatus()
     {

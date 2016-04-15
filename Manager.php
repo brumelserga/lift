@@ -20,7 +20,7 @@ class Manager
     /**
      * 
      * @param int $floor
-     * @return type
+     * @return ILift | null
      */
     public function getLift($floor)
     {

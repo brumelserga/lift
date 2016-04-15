@@ -57,11 +57,11 @@ class App {
             sleep(1);
             echo '------------------' . PHP_EOL;
             echo 'All lifts are busy' . PHP_EOL;
-            echo 'Emulate chenging status for random lift' . PHP_EOL;
+            echo 'Emulate changing status for random lift' . PHP_EOL;
             echo $this->_getLiftDescription($lift);
         }
 
-        /** Lift start moving to floor from whitch it was called */
+        /** Lift start moving to floor from which it was called */
         $lift->moveTo($floor);
     }
     
@@ -158,7 +158,7 @@ class App {
                 $strategy = new Strategy_Free();
                 break;
             default:
-                throw new Exception('Set valid strtategy');
+                throw new Exception('Set valid strategy');
                 break;            
         }
         return $strategy;
