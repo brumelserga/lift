@@ -1,9 +1,9 @@
 USAGE:
-    php -f app.php -- --lifts_count=4 --your_floor=14 --strategy=Default
+    php -f app.php -- --lifts_count=4 --your_floor=14 --strategy=ComingOrFreeNearest
 
 - lifts_count - number of lifts (1-10)
 - your_floor - floor where lift was called (1-30)
-- strategy - strategy for choose lift (Default|Nearest|Free)
+- strategy - strategy for choose lift (ComingOrFreeNearest|Nearest|Free)
 
 
 1) Участвуюют - лифт, менеджер лифтов, стратегия и классы проверки состояния лифта.

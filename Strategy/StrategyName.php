@@ -23,7 +23,10 @@ class StrategyName
      */
     public function __construct($name)
     {
-        $this->_name = empty($name) ? $this->_getDefaultName() : $name;
+        $name = empty($name) ? $this->_getDefaultName() : $name;
+        $this->_guardName($name);
+
+        $this->_name =$name;
     }
 
 
@@ -36,19 +39,15 @@ class StrategyName
     }
 
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
-    static public function isValid($name)
-    {
-        return in_array($name, self::$_names);
-    }
-
-
     private function _getDefaultName()
     {
         return self::COMING_OR_FREE_NEAREST;
+    }
+
+
+    private function _guardName($name)
+    {
+        if (!in_array($name, self::$_names))
+            throw new InvalidArgumentException("Strategy name is not valid");
     }
 }

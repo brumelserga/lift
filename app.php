@@ -4,7 +4,9 @@ require_once 'autoload.php';
 
 $options = getopt('', array('your_floor::', 'lifts_count::', 'strategy:'));
 
-$app = new App($options);
+$strategyName = new StrategyName($options['strategy']);
+
+$app = new App($options, $strategyName);
 $app->callLift((int)$options['your_floor']);
 
 /**
@@ -19,12 +21,14 @@ class App {
      * @var Manager
      */
     protected $_manager;
-    
+
+
     /**
-     * 
+     *
      * @param array $options
+     * @param StrategyName $strategyName
      */
-    public function __construct($options)
+    public function __construct($options, $strategyName)
     {
         try {
             $this->_validateOptions($options);
@@ -35,9 +39,8 @@ class App {
                 $this->_manager->setLift($lift);
                 echo $this->_getLiftDescription($lift);
             }
-            
-            $strategyName = new StrategyName($options['strategy']);
-            $strategy = $this->_getStrategy($strategyName->getName());
+
+            $strategy = $this->_getStrategy($strategyName);
             $this->_manager->setStrategy($strategy);
             
         } catch (Exception $e) {
@@ -141,25 +144,24 @@ class App {
     
     /**
      * 
-     * @param string $strategyStr
-     * @return \Strategy_Free
+     * @param StrategyName $strategyName
+     *
+     * @return Strategy_Abstract
      * @throws Exception
      */
-    protected function _getStrategy($strategyStr)
+    protected function _getStrategy($strategyName)
     {
-        switch ($strategyStr) {
-            case 'Default':
-                $strategy = new Strategy_ComingOrFreeNearest();
-                break;
-            case 'Nearest':
+        switch ($strategyName->getName()) {
+            case StrategyName::NEAREST:
                 $strategy = new Strategy_Nearest();
                 break;
-            case 'Free':
+            case StrategyName::FREE:
                 $strategy = new Strategy_Free();
                 break;
+            case StrategyName::COMING_OR_FREE_NEAREST:
             default:
-                throw new Exception('Set valid strategy');
-                break;            
+                $strategy = new Strategy_ComingOrFreeNearest();
+                break;
         }
         return $strategy;
     }
