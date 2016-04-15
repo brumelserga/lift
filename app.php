@@ -5,9 +5,10 @@ require_once 'autoload.php';
 $options = getopt('', array('your_floor::', 'lifts_count::', 'strategy:'));
 
 $strategyName = new StrategyName($options['strategy']);
+$yourFloor = new FloorNumber($options['your_floor']);
 
 $app = new App($options, $strategyName);
-$app->callLift((int)$options['your_floor']);
+$app->callLift($yourFloor->getNumber());
 
 /**
  * App
