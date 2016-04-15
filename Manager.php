@@ -51,7 +51,7 @@ class Manager
      * 
      * @param ILift $lift
      */
-    public function setLift(ILift $lift)
+    public function appendLift(ILift $lift)
     {
         $this->_lifts[] = $lift;
     }

@@ -37,7 +37,7 @@ class App {
             for ($i = 1; $i <= $liftsQty->getQty(); $i++) {
                 $rndData = $this->_getRandomData();
                 $lift = new Lift($i, $rndData['status'], $rndData['current_floor']);
-                $this->_manager->setLift($lift);
+                $this->_manager->appendLift($lift);
                 echo $this->_getLiftDescription($lift);
             }
 
