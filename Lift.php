@@ -79,7 +79,7 @@ class Lift implements ILift
      */
     public function isFree()
     {
-        return $this->_status->getStatus() == LiftStatus::FREE;
+        return $this->_status->is(LiftStatus::FREE);
     }
     
     /**
@@ -88,7 +88,7 @@ class Lift implements ILift
      */
     public function isMovingDown()
     {
-        return $this->_status->getStatus() == LiftStatus::MOVING_DOWN;
+        return $this->_status->is(LiftStatus::MOVING_DOWN);
     }
     
     /**
@@ -97,7 +97,7 @@ class Lift implements ILift
      */
     public function isMovingUp()
     {
-        return $this->_status->getStatus() == LiftStatus::MOVING_UP;
+        return $this->_status->is(LiftStatus::MOVING_UP);
     }
     
     /**

@@ -54,6 +54,17 @@ class LiftStatus
 
 
     /**
+     * @param $status
+     *
+     * @return bool
+     */
+    public function is($status)
+    {
+        return $this->_status == $status;
+    }
+
+
+    /**
      * @return LiftStatus
      */
     public static function random()
