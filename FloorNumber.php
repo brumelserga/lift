@@ -38,6 +38,39 @@ class FloorNumber
 
 
     /**
+     * @param FloorNumber $otherFloor
+     *
+     * @return bool
+     */
+    public function greaterThen(FloorNumber $otherFloor)
+    {
+        return $this->_number > $otherFloor->getNumber();
+    }
+
+
+    /**
+     * @param FloorNumber $otherFloor
+     *
+     * @return bool
+     */
+    public function lowerThen(FloorNumber $otherFloor)
+    {
+        return $this->_number < $otherFloor->getNumber();
+    }
+
+
+    /**
+     * @param FloorNumber $otherFloor
+     *
+     * @return number
+     */
+    public function distanceTo(FloorNumber $otherFloor)
+    {
+        return abs($this->_number - $otherFloor->getNumber());
+    }
+
+
+    /**
      * @param int $number
      */
     private function _guardFloorNumber($number)

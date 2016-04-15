@@ -57,7 +57,7 @@ class App {
      */
     public function callLift($floor)
     {
-        while (!($lift = $this->_manager->getLift($floor->getNumber()))) {
+        while (!($lift = $this->_manager->getLift($floor))) {
             $lift = $this->_manager->changeStatusOfRandLift();
             sleep(1);
             echo '------------------' . PHP_EOL;
@@ -67,7 +67,7 @@ class App {
         }
 
         /** Lift start moving to floor from which it was called */
-        $lift->moveTo($floor->getNumber());
+        $lift->moveTo($floor);
     }
     
     /**

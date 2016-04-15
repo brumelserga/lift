@@ -6,14 +6,17 @@ class Strategy_Check_Alreadymovingtofloor
     /**
      * 
      * @param ILift $lift
-     * @param int $floor
+     * @param FloorNumber $floor
      * @return int
      */
     public function getPoints(ILift $lift, $floor)
     {
         $points = 0;
         
-        if ($lift->isMovingDown() && $lift->getCurrentFloor()->getNumber() > $floor) {
+        if ($lift->isMovingDown() && $lift->getCurrentFloor()->greaterThen($floor)) {
+            $points += 1;
+        }
+        else if ($lift->isMovingUp() && $lift->getCurrentFloor()->lowerThen($floor)) {
             $points += 1;
         }
 

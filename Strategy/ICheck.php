@@ -4,7 +4,7 @@ interface ICheck
 {
     /**
      * @param ILift $lift
-     * @param int $floor
+     * @param FloorNumber $floor
      *
      * @return int
      */

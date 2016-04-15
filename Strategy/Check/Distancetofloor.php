@@ -6,7 +6,7 @@ class Strategy_Check_Distancetofloor
     /**
      * 
      * @param ILift $lift
-     * @param int $floor
+     * @param FloorNumber $floor
      * @return int|float
      */
     public function getPoints(ILift $lift, $floor)
@@ -14,7 +14,7 @@ class Strategy_Check_Distancetofloor
         $points = 0;
         
         if ($lift->canBeCalled($floor)) {
-            $floorDiff = abs($lift->getCurrentFloor()->getNumber() - $floor);
+            $floorDiff = $lift->getCurrentFloor()->distanceTo($floor);
             $points += (1 - round($floorDiff / FloorNumber::MAX_FLOOR, 2));
         }
         

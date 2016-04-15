@@ -52,7 +52,7 @@ class Lift implements ILift
     
     /**
      * 
-     * @param int $floor
+     * @param FloorNumber $floor
      * @return boolean
      */
     public function canBeCalled($floor)
@@ -62,7 +62,7 @@ class Lift implements ILift
             $result = true;
         }
         
-        if ($this->isMovingDown() && $this->getCurrentFloor()->getNumber() > $floor) {
+        if ($this->isMovingDown() && $this->getCurrentFloor()->getNumber() > $floor->getNumber()) {
             $result = true;
         }
         return $result;
@@ -70,7 +70,7 @@ class Lift implements ILift
     
     /**
      * 
-     * @param int $floor
+     * @param FloorNumber $floor
      */
     public function moveTo($floor)
     {

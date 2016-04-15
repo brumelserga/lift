@@ -13,13 +13,13 @@ class Manager
     
     /**
      *
-     * @var array
+     * @var ILift[]
      */
     protected $_lifts = array();
     
     /**
      * 
-     * @param int $floor
+     * @param FloorNumber $floor
      * @return ILift | null
      */
     public function getLift($floor)
@@ -28,7 +28,7 @@ class Manager
         foreach ($this->_lifts as $lift) {
             $points = $this->_strategy->getPoints($lift, $floor);
             $result[] = array('lift' => $lift, 'points' => $points);
-            echo sprintf('Lift #%s has got %s points%s', $lift->id, $points, PHP_EOL);
+            echo sprintf('Lift #%s has got %s points%s', $lift->getId(), $points, PHP_EOL);
         }
         $lift = $this->_chooseLiftWithMaxPoints($result);
         
@@ -42,8 +42,7 @@ class Manager
     public function changeStatusOfRandLift()
     {
         $lift = $this->_lifts[array_rand($this->_lifts)];
-        $statuses = array(Lift::STATUS_FREE, Lift::STATUS_MOVING_UP, Lift::STATUS_MOVING_DOWN);
-        $lift->setStatus($statuses[array_rand($statuses)]);
+        $lift->setStatus(LiftStatus::random());
         return $lift;
     }
     

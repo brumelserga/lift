@@ -8,7 +8,7 @@ interface ILift
 
     /**
      * 
-     * @param int $floor
+     * @param FloorNumber $floor
      * @return boolean
      */
     public function canBeCalled($floor);
@@ -21,7 +21,7 @@ interface ILift
     
     /**
      * 
-     * @param int $status
+     * @param LiftStatus $status
      */
     public function setStatus($status);
     
@@ -42,7 +42,7 @@ interface ILift
 
 
     /**
-     * @param int $floor
+     * @param FloorNumber $floor
      */
     public function moveTo($floor);
 

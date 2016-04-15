@@ -6,7 +6,7 @@ class Strategy_Check_Free
     /**
      * 
      * @param ILift $lift
-     * @param int $floor
+     * @param FloorNumber $floor
      * @return int
      */
     public function getPoints(ILift $lift, $floor)
