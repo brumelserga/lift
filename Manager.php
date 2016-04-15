@@ -65,14 +65,5 @@ class Manager
     {
         $this->_lifts[] = $lift;
     }
-    
-    /**
-     * 
-     * @param Strategy_Abstract $strategy
-     */
-    public function setStrategy(Strategy_Abstract $strategy)
-    {
-        $this->_strategy = $strategy;
-    }
 }
 
