@@ -21,13 +21,7 @@ class Lift implements ILift
      */
     private $_currentFloor;
 
-    /** @deprecated */
-    const STATUS_FREE = 1;
-    /** @deprecated */
-    const STATUS_MOVING_UP = 2;
-    /** @deprecated */
-    const STATUS_MOVING_DOWN = 3;
-    
+
     /**
      * 
      * @param int $id
@@ -85,7 +79,7 @@ class Lift implements ILift
      */
     public function isFree()
     {
-        return $this->_status->getStatus() == self::STATUS_FREE;
+        return $this->_status->getStatus() == LiftStatus::FREE;
     }
     
     /**
@@ -94,7 +88,7 @@ class Lift implements ILift
      */
     public function isMovingDown()
     {
-        return $this->_status->getStatus() == self::STATUS_MOVING_DOWN;
+        return $this->_status->getStatus() == LiftStatus::MOVING_DOWN;
     }
     
     /**
@@ -103,7 +97,7 @@ class Lift implements ILift
      */
     public function isMovingUp()
     {
-        return $this->_status->getStatus() == self::STATUS_MOVING_UP;
+        return $this->_status->getStatus() == LiftStatus::MOVING_UP;
     }
     
     /**
