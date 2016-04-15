@@ -31,7 +31,9 @@ class App {
     public function __construct($liftsQty, $strategyName)
     {
         try {
-            $this->_manager = new Manager();
+            $strategy = $this->_getStrategy($strategyName);
+
+            $this->_manager = new Manager($strategy);
             for ($i = 1; $i <= $liftsQty->getQty(); $i++) {
                 $lift = new Lift(
                     $i,
@@ -39,12 +41,10 @@ class App {
                     FloorNumber::random()
                 );
                 $this->_manager->appendLift($lift);
+
                 echo $this->_getLiftDescription($lift);
             }
 
-            $strategy = $this->_getStrategy($strategyName);
-            $this->_manager->setStrategy($strategy);
-            
         } catch (Exception $e) {
             echo PHP_EOL . $e->getMessage() . PHP_EOL;
             exit;
@@ -58,13 +58,13 @@ class App {
     public function callLift($floor)
     {
         while (!($lift = $this->_manager->getLift($floor))) {
-            $lift = $this->_manager->getRandomLift();
-            $lift->setStatus(LiftStatus::random());
+            $random_lift = $this->_manager->getRandomLift();
+            $random_lift->setStatus(LiftStatus::random());
             sleep(1);
             echo '------------------' . PHP_EOL;
             echo 'All lifts are busy' . PHP_EOL;
             echo 'Emulate changing status for random lift' . PHP_EOL;
-            echo $this->_getLiftDescription($lift);
+            echo $this->_getLiftDescription($random_lift);
         }
 
         /** Lift start moving to floor from which it was called */

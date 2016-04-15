@@ -16,7 +16,17 @@ class Manager
      * @var ILift[]
      */
     protected $_lifts = array();
-    
+
+
+    /**
+     * @param Strategy_Abstract $strategy
+     */
+    public function __construct(Strategy_Abstract $strategy)
+    {
+        $this->_strategy = $strategy;
+    }
+
+
     /**
      * 
      * @param FloorNumber $floor
@@ -24,15 +34,19 @@ class Manager
      */
     public function getLift($floor)
     {
-        $result = array();
+        $best_lift = null;
+        $best_lift_points = 0;
         foreach ($this->_lifts as $lift) {
             $points = $this->_strategy->getPoints($lift, $floor);
-            $result[] = array('lift' => $lift, 'points' => $points);
             echo sprintf('Lift #%s has got %s points%s', $lift->getId(), $points, PHP_EOL);
+
+            if ($best_lift_points < $points) {
+                $best_lift = $lift;
+                $best_lift_points = $points;
+            }
         }
-        $lift = $this->_chooseLiftWithMaxPoints($result);
-        
-        return $lift;
+
+        return $best_lift;
     }
 
     /**
@@ -59,25 +73,6 @@ class Manager
     public function setStrategy(Strategy_Abstract $strategy)
     {
         $this->_strategy = $strategy;
-    }
-    
-    /**
-     * 
-     * @param array $result
-     * @return ILift|null
-     */
-    protected function _chooseLiftWithMaxPoints($result)
-    {
-        usort($result, function($a, $b) {
-            if ($a['points'] == $b['points']) {
-                return 0;
-            }
-            return ($a['points'] > $b['points']) ? 1 : -1;
-        });
-
-        $res = array_pop($result);
-        
-        return ($res['points'] > 0) ? $res['lift'] : null;
     }
 }
 
