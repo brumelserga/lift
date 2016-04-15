@@ -36,8 +36,8 @@ class App {
                 echo $this->_getLiftDescription($lift);
             }
             
-            $strategyName = !empty($options['strategy']) ? $options['strategy'] : 'Default';
-            $strategy = $this->_getStrategy($strategyName);
+            $strategyName = new StrategyName($options['strategy']);
+            $strategy = $this->_getStrategy($strategyName->getName());
             $this->_manager->setStrategy($strategy);
             
         } catch (Exception $e) {
