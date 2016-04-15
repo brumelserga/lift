@@ -4,10 +4,11 @@ require_once 'autoload.php';
 
 $options = getopt('', array('your_floor::', 'lifts_count::', 'strategy:'));
 
-$strategyName = new StrategyName($options['strategy']);
 $yourFloor = new FloorNumber($options['your_floor']);
+$liftsQty = new LiftsQty($options['lifts_count']);
+$strategyName = new StrategyName($options['strategy']);
 
-$app = new App($options, $strategyName);
+$app = new App($options, $liftsQty, $strategyName);
 $app->callLift($yourFloor->getNumber());
 
 /**
@@ -27,14 +28,15 @@ class App {
     /**
      *
      * @param array $options
+     * @param LiftsQty $liftsQty
      * @param StrategyName $strategyName
      */
-    public function __construct($options, $strategyName)
+    public function __construct($options, $liftsQty, $strategyName)
     {
         try {
             $this->_validateOptions($options);
             $this->_manager = new Manager();
-            for ($i = 1; $i <= $options['lifts_count']; $i++) {
+            for ($i = 1; $i <= $liftsQty->getQty(); $i++) {
                 $rndData = $this->_getRandomData();
                 $lift = new Lift($i, $rndData['status'], $rndData['current_floor']);
                 $this->_manager->setLift($lift);
