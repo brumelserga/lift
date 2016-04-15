@@ -8,7 +8,7 @@ $yourFloor = new FloorNumber($options['your_floor']);
 $liftsQty = new LiftsQty($options['lifts_count']);
 $strategyName = new StrategyName($options['strategy']);
 
-$app = new App($options, $liftsQty, $strategyName);
+$app = new App($liftsQty, $strategyName);
 $app->callLift($yourFloor->getNumber());
 
 /**
@@ -27,14 +27,12 @@ class App {
 
     /**
      *
-     * @param array $options
      * @param LiftsQty $liftsQty
      * @param StrategyName $strategyName
      */
-    public function __construct($options, $liftsQty, $strategyName)
+    public function __construct($liftsQty, $strategyName)
     {
         try {
-            $this->_validateOptions($options);
             $this->_manager = new Manager();
             for ($i = 1; $i <= $liftsQty->getQty(); $i++) {
                 $rndData = $this->_getRandomData();
@@ -81,40 +79,6 @@ class App {
         $result['status'] = $statuses[array_rand($statuses)];
         $result['current_floor'] = rand(1, self::FLOORS_COUNT);
         return $result;
-    }
-    
-    /**
-     * 
-     * @param array $options
-     * @throws Exception
-     */
-    protected function _validateOptions(Array $options)
-    {
-        if (empty($options['lifts_count'])) {
-            throw new Exception('Enter number of lifts');
-        }
-        
-        if (!is_numeric($options['lifts_count'])) {
-            throw new Exception('Enter  valid number of lifts');
-        }
-        
-        if ($options['lifts_count'] < 1 or $options['lifts_count'] > 10) {
-            throw new Exception('Enter  valid number of lifts');
-        }
-        
-        if (!empty($options['strategy            '])) {
-            if (!in_array($options['strategy'], array('Default', 'Nearest', 'Free'))) {
-                throw new Exception('Enter  valid strategy - Default, Nearest or Free');
-            }
-        }
-        
-        if (!is_numeric($options['your_floor'])) {
-            throw new Exception('Enter  valid floor');
-        }
-        
-        if ((int)$options['your_floor'] < 0 || (int)$options['your_floor'] > self::FLOORS_COUNT) {
-            throw new Exception('Enter  valid floor');
-        }
     }
     
     /**
