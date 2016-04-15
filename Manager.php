@@ -34,18 +34,15 @@ class Manager
         
         return $lift;
     }
-    
+
     /**
-     * 
      * @return ILift
      */
-    public function changeStatusOfRandLift()
+    public function getRandomLift()
     {
-        $lift = $this->_lifts[array_rand($this->_lifts)];
-        $lift->setStatus(LiftStatus::random());
-        return $lift;
+        return $this->_lifts[array_rand($this->_lifts)];
     }
-    
+
     /**
      * 
      * @param ILift $lift

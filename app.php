@@ -58,7 +58,8 @@ class App {
     public function callLift($floor)
     {
         while (!($lift = $this->_manager->getLift($floor))) {
-            $lift = $this->_manager->changeStatusOfRandLift();
+            $lift = $this->_manager->getRandomLift();
+            $lift->setStatus(LiftStatus::random());
             sleep(1);
             echo '------------------' . PHP_EOL;
             echo 'All lifts are busy' . PHP_EOL;
