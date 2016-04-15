@@ -9,7 +9,7 @@ $liftsQty = new LiftsQty($options['lifts_count']);
 $strategyName = new StrategyName($options['strategy']);
 
 $app = new App($liftsQty, $strategyName);
-$app->callLift($yourFloor->getNumber());
+$app->callLift($yourFloor);
 
 /**
  * App
@@ -52,11 +52,11 @@ class App {
     
     /**
      * 
-     * @param int $floor
+     * @param FloorNumber $floor
      */
     public function callLift($floor)
     {
-        while (!($lift = $this->_manager->getLift($floor))) {
+        while (!($lift = $this->_manager->getLift($floor->getNumber()))) {
             $lift = $this->_manager->changeStatusOfRandLift();
             sleep(1);
             echo '------------------' . PHP_EOL;
@@ -66,7 +66,7 @@ class App {
         }
 
         /** Lift start moving to floor from which it was called */
-        $lift->moveTo($floor);
+        $lift->moveTo($floor->getNumber());
     }
     
     /**

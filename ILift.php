@@ -34,4 +34,10 @@ interface ILift
      * @return bool
      */
     public function isMovingUp();
+
+
+    /**
+     * @param int $floor
+     */
+    public function moveTo($floor);
 }
