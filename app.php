@@ -149,7 +149,7 @@ class App {
     {
         switch ($strategyStr) {
             case 'Default':
-                $strategy = new Strategy_Default();
+                $strategy = new Strategy_ComingOrFreeNearest();
                 break;
             case 'Nearest':
                 $strategy = new Strategy_Nearest();

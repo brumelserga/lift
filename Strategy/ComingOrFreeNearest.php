@@ -1,6 +1,6 @@
 <?php
 
-class Strategy_Default
+class Strategy_ComingOrFreeNearest
     extends Strategy_Abstract
 {
     /**
