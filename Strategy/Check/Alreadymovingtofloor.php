@@ -1,6 +1,7 @@
 <?php
 
 class Strategy_Check_Alreadymovingtofloor
+    implements ICheck
 {
     /**
      * 

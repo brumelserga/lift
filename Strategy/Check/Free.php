@@ -1,6 +1,7 @@
 <?php
 
 class Strategy_Check_Free
+    implements ICheck
 {
     /**
      * 

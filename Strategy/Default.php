@@ -1,19 +1,17 @@
 <?php
-/**
- * Strategy default
- */
-class Strategy_Default extends Strategy_Abstract
+
+class Strategy_Default
+    extends Strategy_Abstract
 {
     /**
-     * Construct
+     * @return ICheck[]
      */
-    public function __construct()
+    protected function _getCheckPoints()
     {
-        $this->_checkPoints = array(
+        return [
             new Strategy_Check_Free(),
             new Strategy_Check_Alreadymovingtofloor(),
             new Strategy_Check_Distancetofloor(),
-        );
+        ];
     }
 }
-

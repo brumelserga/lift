@@ -1,6 +1,6 @@
 <?php
 
-class Strategy_Abstract
+abstract class Strategy_Abstract
 {
     /**
      *
@@ -12,10 +12,17 @@ class Strategy_Abstract
     public function getPoints(ILift $lift, $floor)
     {
         $points = 0;
-        foreach ($this->_checkPoints as $checkPoint) {
+        $checkPoints = $this->_getCheckPoints();
+        foreach ($checkPoints as $checkPoint) {
             $points += $checkPoint->getPoints($lift, $floor);
         }
         return $points;
     }
+
+
+    /**
+     * @return ICheck[]
+     */
+    abstract protected function _getCheckPoints();
 }
 
