@@ -11,13 +11,13 @@ class Lift implements ILift
     private $id;
     
     /**
-     * @var int
+     * @var LiftStatus
      */
     protected $_status;
     
     /**
      *
-     * @var int
+     * @var FloorNumber
      */
     protected $_currentFloor;
 
@@ -31,14 +31,14 @@ class Lift implements ILift
     /**
      * 
      * @param int $id
-     * @param int|null $status
-     * @param int|null $currentFloor
+     * @param LiftStatus $status
+     * @param FloorNumber $currentFloor
      */
-    public function __construct($id, $status = null, $currentFloor = null)
+    public function __construct($id, LiftStatus $status, FloorNumber $currentFloor)
     {
         $this->id            = $id;
-        $this->_status       = !is_null($status) ? $status : self::STATUS_FREE;
-        $this->_currentFloor = !is_null($currentFloor) ? $currentFloor : 1;
+        $this->_status       = $status;
+        $this->_currentFloor = $currentFloor;
     }
 
 
@@ -62,7 +62,7 @@ class Lift implements ILift
             $result = true;
         }
         
-        if ($this->isMovingDown() && $this->getCurrentFloor() > $floor) {
+        if ($this->isMovingDown() && $this->getCurrentFloor()->getNumber() > $floor) {
             $result = true;
         }
         return $result;
@@ -81,7 +81,7 @@ class Lift implements ILift
     
     /**
      * 
-     * @param int
+     * @param LiftStatus $status
      */
     public function setStatus($status)
     {
@@ -90,7 +90,7 @@ class Lift implements ILift
     
     /**
      * 
-     * @return int
+     * @return LiftStatus
      */
     public function getStatus()
     {
@@ -103,7 +103,7 @@ class Lift implements ILift
      */
     public function isFree()
     {
-        return $this->_status == self::STATUS_FREE;
+        return $this->_status->getStatus() == self::STATUS_FREE;
     }
     
     /**
@@ -112,7 +112,7 @@ class Lift implements ILift
      */
     public function isMovingDown()
     {
-        return $this->_status == self::STATUS_MOVING_DOWN;
+        return $this->_status->getStatus() == self::STATUS_MOVING_DOWN;
     }
     
     /**
@@ -121,12 +121,12 @@ class Lift implements ILift
      */
     public function isMovingUp()
     {
-        return $this->_status == self::STATUS_MOVING_UP;
+        return $this->_status->getStatus() == self::STATUS_MOVING_UP;
     }
     
     /**
      * 
-     * @return bool
+     * @return FloorNumber
      */
     public function getCurrentFloor()
     {

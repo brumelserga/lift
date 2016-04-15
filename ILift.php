@@ -15,7 +15,7 @@ interface ILift
 
     /**
      * 
-     * @return bool
+     * @return FloorNumber
      */
     public function getCurrentFloor();
     
@@ -47,7 +47,7 @@ interface ILift
     public function moveTo($floor);
 
     /**
-     * @return int
+     * @return LiftStatus
      */
     public function getStatus();
 }

@@ -36,7 +36,7 @@ class App {
                 $lift = new Lift(
                     $i,
                     LiftStatus::random(),
-                    FloorNumber::random()->getNumber()
+                    FloorNumber::random()
                 );
                 $this->_manager->appendLift($lift);
                 echo $this->_getLiftDescription($lift);
@@ -78,23 +78,10 @@ class App {
      */
     protected function _getLiftDescription(ILift $lift)
     {
-        switch ($lift->getStatus()) {
-            case LIFT::STATUS_FREE:
-                $status = 'Free';
-               break;
-            case LIFT::STATUS_MOVING_DOWN:
-                $status = 'Moving down';
-                break;
-            case LIFT::STATUS_MOVING_UP:
-                $status = 'Moving up';
-                break;
-            default:
-                throw new Exception('Unknown lift status');
-                break;
-        }
-        
+        $status = $lift->getStatus()->getCaption();
+
         return sprintf('Lift #%s: status - %s, current floor - %s%s',
-            $lift->getId(), $status, (int)$lift->getCurrentFloor(), PHP_EOL
+            $lift->getId(), $status, $lift->getCurrentFloor()->getNumber(), PHP_EOL
         );
     }
     

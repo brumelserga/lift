@@ -13,7 +13,7 @@ class Strategy_Check_Alreadymovingtofloor
     {
         $points = 0;
         
-        if ($lift->isMovingDown() && $lift->getCurrentFloor() > $floor) {
+        if ($lift->isMovingDown() && $lift->getCurrentFloor()->getNumber() > $floor) {
             $points += 1;
         }
 

@@ -33,7 +33,7 @@ class FloorNumber
      */
     public static function random()
     {
-        return new FloorNumber(rand(1, self::MAX_FLOOR));
+        return new self(rand(1, self::MAX_FLOOR));
     }
 
 
