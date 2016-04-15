@@ -77,7 +77,7 @@ class App {
      * @return string
      * @throws Exception
      */
-    protected function _getLiftDescription(ILift $lift)
+    private function _getLiftDescription(ILift $lift)
     {
         $status = $lift->getStatus()->getCaption();
 
@@ -93,7 +93,7 @@ class App {
      * @return Strategy_Abstract
      * @throws Exception
      */
-    protected function _getStrategy($strategyName)
+    private function _getStrategy($strategyName)
     {
         switch ($strategyName->getName()) {
             case StrategyName::NEAREST:

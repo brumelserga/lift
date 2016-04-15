@@ -9,13 +9,13 @@ class Manager
      *
      * @var Strategy_Abstract
      */
-    protected $_strategy;
+    private $_strategy;
     
     /**
      *
      * @var ILift[]
      */
-    protected $_lifts = array();
+    private $_lifts = array();
 
 
     /**

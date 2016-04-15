@@ -8,18 +8,18 @@ class Lift implements ILift
      *
      * @var int
      */
-    private $id;
+    private $_id;
     
     /**
      * @var LiftStatus
      */
-    protected $_status;
+    private $_status;
     
     /**
      *
      * @var FloorNumber
      */
-    protected $_currentFloor;
+    private $_currentFloor;
 
     /** @deprecated */
     const STATUS_FREE = 1;
@@ -36,7 +36,7 @@ class Lift implements ILift
      */
     public function __construct($id, LiftStatus $status, FloorNumber $currentFloor)
     {
-        $this->id            = $id;
+        $this->_id            = $id;
         $this->_status       = $status;
         $this->_currentFloor = $currentFloor;
     }
@@ -47,7 +47,7 @@ class Lift implements ILift
      */
     public function getId()
     {
-        return $this->id;
+        return $this->_id;
     }
     
     /**
@@ -75,7 +75,7 @@ class Lift implements ILift
     public function moveTo($floor)
     {
         echo sprintf('------%sLift #%s start moving to your floor (#%d)%s-------%s',
-            PHP_EOL, $this->id, $floor, PHP_EOL, PHP_EOL
+            PHP_EOL, $this->_id, $floor, PHP_EOL, PHP_EOL
         );
     }
     
