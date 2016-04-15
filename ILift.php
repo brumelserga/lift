@@ -40,4 +40,9 @@ interface ILift
      * @param int $floor
      */
     public function moveTo($floor);
+
+    /**
+     * @return int
+     */
+    public function getStatus();
 }
