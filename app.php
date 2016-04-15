@@ -57,7 +57,7 @@ class App {
      */
     public function callLift($floor)
     {
-        while (!($lift = $this->_manager->getLift($floor))) {
+        while (!($lift = $this->_manager->findBestLiftFor($floor))) {
             $random_lift = $this->_manager->getRandomLift();
             $random_lift->setStatus(LiftStatus::random());
             sleep(1);

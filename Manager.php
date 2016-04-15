@@ -32,7 +32,7 @@ class Manager
      * @param FloorNumber $floor
      * @return ILift | null
      */
-    public function getLift($floor)
+    public function findBestLiftFor($floor)
     {
         $best_lift = null;
         $best_lift_points = 0;
