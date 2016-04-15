@@ -15,7 +15,7 @@ class Strategy_Check_Distancetofloor
         
         if ($lift->canBeCalled($floor)) {
             $floorDiff = abs($lift->getCurrentFloor() - $floor);
-            $points += (1 - round($floorDiff/App::FLOORS_COUNT, 2));
+            $points += (1 - round($floorDiff / FloorNumber::MAX_FLOOR, 2));
         }
         
         return $points;

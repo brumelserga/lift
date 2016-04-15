@@ -16,8 +16,6 @@ $app->callLift($yourFloor);
  */
 class App {
     
-    const FLOORS_COUNT = 30;
-    
     /**
      *
      * @var Manager
