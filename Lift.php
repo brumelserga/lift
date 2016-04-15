@@ -36,7 +36,7 @@ class Lift implements ILift
      */
     public function __construct($id, LiftStatus $status, FloorNumber $currentFloor)
     {
-        $this->_id            = $id;
+        $this->_id           = $id;
         $this->_status       = $status;
         $this->_currentFloor = $currentFloor;
     }
@@ -48,24 +48,6 @@ class Lift implements ILift
     public function getId()
     {
         return $this->_id;
-    }
-    
-    /**
-     * 
-     * @param FloorNumber $floor
-     * @return boolean
-     */
-    public function canBeCalled($floor)
-    {
-        $result = false;
-        if ($this->isFree()) {
-            $result = true;
-        }
-        
-        if ($this->isMovingDown() && $this->getCurrentFloor()->getNumber() > $floor->getNumber()) {
-            $result = true;
-        }
-        return $result;
     }
     
     /**

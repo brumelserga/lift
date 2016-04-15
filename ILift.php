@@ -8,13 +8,6 @@ interface ILift
 
     /**
      * 
-     * @param FloorNumber $floor
-     * @return boolean
-     */
-    public function canBeCalled($floor);
-
-    /**
-     * 
      * @return FloorNumber
      */
     public function getCurrentFloor();
