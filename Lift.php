@@ -20,9 +20,12 @@ class Lift implements ILift
      * @var int
      */
     protected $_currentFloor;
-    
+
+    /** @deprecated */
     const STATUS_FREE = 1;
+    /** @deprecated */
     const STATUS_MOVING_UP = 2;
+    /** @deprecated */
     const STATUS_MOVING_DOWN = 3;
     
     /**

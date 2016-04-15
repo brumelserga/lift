@@ -28,6 +28,18 @@ class FloorNumber
     }
 
 
+    /**
+     * @return FloorNumber
+     */
+    public static function random()
+    {
+        return new FloorNumber(rand(1, self::MAX_FLOOR));
+    }
+
+
+    /**
+     * @param int $number
+     */
     private function _guardFloorNumber($number)
     {
         if (!is_numeric($number)) {

@@ -35,8 +35,11 @@ class App {
         try {
             $this->_manager = new Manager();
             for ($i = 1; $i <= $liftsQty->getQty(); $i++) {
-                $rndData = $this->_getRandomData();
-                $lift = new Lift($i, $rndData['status'], $rndData['current_floor']);
+                $lift = new Lift(
+                    $i,
+                    LiftStatus::random(),
+                    FloorNumber::random()->getNumber()
+                );
                 $this->_manager->appendLift($lift);
                 echo $this->_getLiftDescription($lift);
             }
@@ -67,18 +70,6 @@ class App {
 
         /** Lift start moving to floor from which it was called */
         $lift->moveTo($floor->getNumber());
-    }
-    
-    /**
-     * 
-     * @return array
-     */
-    protected function _getRandomData()
-    {
-        $statuses = array(Lift::STATUS_FREE, Lift::STATUS_MOVING_UP, Lift::STATUS_MOVING_DOWN);
-        $result['status'] = $statuses[array_rand($statuses)];
-        $result['current_floor'] = rand(1, self::FLOORS_COUNT);
-        return $result;
     }
     
     /**
