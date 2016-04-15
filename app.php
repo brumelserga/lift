@@ -105,7 +105,7 @@ class App {
         }
         
         return sprintf('Lift #%s: status - %s, current floor - %s%s',
-            $lift->id, $status, (int)$lift->getCurrentFloor(), PHP_EOL
+            $lift->getId(), $status, (int)$lift->getCurrentFloor(), PHP_EOL
         );
     }
     

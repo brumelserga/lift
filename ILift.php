@@ -2,6 +2,11 @@
 interface ILift
 {
     /**
+     * @return int
+     */
+    public function getId();
+
+    /**
      * 
      * @param int $floor
      * @return boolean

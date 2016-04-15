@@ -8,7 +8,7 @@ class Lift implements ILift
      *
      * @var int
      */
-    public $id;
+    private $id;
     
     /**
      * @var int
@@ -36,6 +36,15 @@ class Lift implements ILift
         $this->id            = $id;
         $this->_status       = !is_null($status) ? $status : self::STATUS_FREE;
         $this->_currentFloor = !is_null($currentFloor) ? $currentFloor : 1;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
     }
     
     /**
