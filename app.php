@@ -4,42 +4,47 @@ require_once 'autoload.php';
 
 $options = getopt('', array('your_floor::', 'lifts_count::', 'strategy:'));
 
-$app = new App($options);
-$app->callLift((int)$options['your_floor']);
+$yourFloor = new FloorNumber($options['your_floor']);
+$liftsQty = new LiftsQty($options['lifts_count']);
+$strategyName = new StrategyName($options['strategy']);
+
+$app = new App($liftsQty, $strategyName);
+$app->callLift($yourFloor);
 
 /**
  * App
  */
 class App {
     
-    const FLOORS_COUNT = 30;
-    
     /**
      *
      * @var Manager
      */
     protected $_manager;
-    
+
+
     /**
-     * 
-     * @param array $options
+     *
+     * @param LiftsQty $liftsQty
+     * @param StrategyName $strategyName
      */
-    public function __construct($options)
+    public function __construct($liftsQty, $strategyName)
     {
         try {
-            $this->_validateOptions($options);
-            $this->_manager = new Manager();
-            for ($i = 1; $i <= $options['lifts_count']; $i++) {
-                $rndData = $this->_getRandomData();
-                $lift = new Lift($i, $rndData['status'], $rndData['current_floor']);
-                $this->_manager->setLift($lift);
+            $strategy = $this->_getStrategy($strategyName);
+
+            $this->_manager = new Manager($strategy);
+            for ($i = 1; $i <= $liftsQty->getQty(); $i++) {
+                $lift = new Lift(
+                    $i,
+                    LiftStatus::random(),
+                    FloorNumber::random()
+                );
+                $this->_manager->appendLift($lift);
+
                 echo $this->_getLiftDescription($lift);
             }
-            
-            $strategyStr = !empty($options['strategy']) ? $options['strategy'] : 'Default';
-            $strategy = $this->_getStrategy($strategyStr);
-            $this->_manager->setStrategy($strategy);
-            
+
         } catch (Exception $e) {
             echo PHP_EOL . $e->getMessage() . PHP_EOL;
             exit;
@@ -48,67 +53,22 @@ class App {
     
     /**
      * 
-     * @param int $floor
+     * @param FloorNumber $floor
      */
     public function callLift($floor)
     {
-        while (!($lift = $this->_manager->getLift($floor))) {
-            $lift = $this->_manager->changeStatusOfRandLift();
+        while (!($lift = $this->_manager->findBestLiftFor($floor))) {
+            $random_lift = $this->_manager->getRandomLift();
+            $random_lift->setStatus(LiftStatus::random());
             sleep(1);
             echo '------------------' . PHP_EOL;
             echo 'All lifts are busy' . PHP_EOL;
-            echo 'Emulate chenging status for random lift' . PHP_EOL;
-            echo $this->_getLiftDescription($lift);
+            echo 'Emulate changing status for random lift' . PHP_EOL;
+            echo $this->_getLiftDescription($random_lift);
         }
 
-        /** Lift start moving to floor from whitch it was called */
+        /** Lift start moving to floor from which it was called */
         $lift->moveTo($floor);
-    }
-    
-    /**
-     * 
-     * @return array
-     */
-    protected function _getRandomData()
-    {
-        $statuses = array(Lift::STATUS_FREE, Lift::STATUS_MOVING_UP, Lift::STATUS_MOVING_DOWN);
-        $result['status'] = $statuses[array_rand($statuses)];
-        $result['current_floor'] = rand(1, self::FLOORS_COUNT);
-        return $result;
-    }
-    
-    /**
-     * 
-     * @param array $options
-     * @throws Exception
-     */
-    protected function _validateOptions(Array $options)
-    {
-        if (empty($options['lifts_count'])) {
-            throw new Exception('Enter number of lifts');
-        }
-        
-        if (!is_numeric($options['lifts_count'])) {
-            throw new Exception('Enter  valid number of lifts');
-        }
-        
-        if ($options['lifts_count'] < 1 or $options['lifts_count'] > 10) {
-            throw new Exception('Enter  valid number of lifts');
-        }
-        
-        if (!empty($options['strategy            '])) {
-            if (!in_array($options['strategy'], array('Default', 'Nearest', 'Free'))) {
-                throw new Exception('Enter  valid strategy - Default, Nearest or Free');
-            }
-        }
-        
-        if (!is_numeric($options['your_floor'])) {
-            throw new Exception('Enter  valid floor');
-        }
-        
-        if ((int)$options['your_floor'] < 0 || (int)$options['your_floor'] > self::FLOORS_COUNT) {
-            throw new Exception('Enter  valid floor');
-        }
     }
     
     /**
@@ -117,49 +77,35 @@ class App {
      * @return string
      * @throws Exception
      */
-    protected function _getLiftDescription(ILift $lift)
+    private function _getLiftDescription(ILift $lift)
     {
-        switch ($lift->getStatus()) {
-            case LIFT::STATUS_FREE:
-                $status = 'Free';
-               break;
-            case LIFT::STATUS_MOVING_DOWN:
-                $status = 'Moving down';
-                break;
-            case LIFT::STATUS_MOVING_UP:
-                $status = 'Moving up';
-                break;
-            default:
-                throw new Exception('Unknown lift status');
-                break;
-        }
-        
+        $status = $lift->getStatus()->getCaption();
+
         return sprintf('Lift #%s: status - %s, current floor - %s%s',
-            $lift->id, $status, (int)$lift->getCurrentFloor(), PHP_EOL
+            $lift->getId(), $status, $lift->getCurrentFloor()->getNumber(), PHP_EOL
         );
     }
     
     /**
      * 
-     * @param string $strategyStr
-     * @return \Strategy_Free
+     * @param StrategyName $strategyName
+     *
+     * @return Strategy_Abstract
      * @throws Exception
      */
-    protected function _getStrategy($strategyStr)
+    private function _getStrategy($strategyName)
     {
-        switch ($strategyStr) {
-            case 'Default':
-                $strategy = new Strategy_Default();
-                break;
-            case 'Nearest':
+        switch ($strategyName->getName()) {
+            case StrategyName::NEAREST:
                 $strategy = new Strategy_Nearest();
                 break;
-            case 'Free':
+            case StrategyName::FREE:
                 $strategy = new Strategy_Free();
                 break;
+            case StrategyName::COMING_OR_FREE_NEAREST:
             default:
-                throw new Exception('Set valid strtategy');
-                break;            
+                $strategy = new Strategy_ComingOrFreeNearest();
+                break;
         }
         return $strategy;
     }

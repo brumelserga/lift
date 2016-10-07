@@ -2,21 +2,19 @@
 interface ILift
 {
     /**
-     * 
-     * @param int $floor
-     * @return boolean
+     * @return int
      */
-    public function canBeCalled($floor);
+    public function getId();
 
     /**
      * 
-     * @return bool
+     * @return FloorNumber
      */
     public function getCurrentFloor();
     
     /**
      * 
-     * @param int $status
+     * @param LiftStatus $status
      */
     public function setStatus($status);
     
@@ -34,4 +32,15 @@ interface ILift
      * @return bool
      */
     public function isMovingUp();
+
+
+    /**
+     * @param FloorNumber $floor
+     */
+    public function moveTo($floor);
+
+    /**
+     * @return LiftStatus
+     */
+    public function getStatus();
 }

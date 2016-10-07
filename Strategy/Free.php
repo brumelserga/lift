@@ -1,17 +1,15 @@
 <?php
-/**
- * Strategy free
- */
+
 class Strategy_Free extends Strategy_Abstract
 {
     /**
-     * Construct
+     * @return ICheck[]
      */
-    public function __construct()
+    protected function _getCheckPoints()
     {
-        $this->_checkPoints = array(
+        return [
             new Strategy_Check_Free(),
-        );
+        ];
     }
 }
 

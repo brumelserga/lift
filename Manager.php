@@ -9,79 +9,61 @@ class Manager
      *
      * @var Strategy_Abstract
      */
-    protected $_strategy;
+    private $_strategy;
     
     /**
      *
-     * @var array
+     * @var ILift[]
      */
-    protected $_lifts = array();
-    
+    private $_lifts = array();
+
+
+    /**
+     * @param Strategy_Abstract $strategy
+     */
+    public function __construct(Strategy_Abstract $strategy)
+    {
+        $this->_strategy = $strategy;
+    }
+
+
     /**
      * 
-     * @param int $floor
-     * @return type
+     * @param FloorNumber $floor
+     * @return ILift | null
      */
-    public function getLift($floor)
+    public function findBestLiftFor($floor)
     {
-        $result = array();
+        $best_lift = null;
+        $best_lift_points = 0;
         foreach ($this->_lifts as $lift) {
             $points = $this->_strategy->getPoints($lift, $floor);
-            $result[] = array('lift' => $lift, 'points' => $points);
-            echo sprintf('Lift #%s has got %s points%s', $lift->id, $points, PHP_EOL);
+            echo sprintf('Lift #%s has got %s points%s', $lift->getId(), $points, PHP_EOL);
+
+            if ($best_lift_points < $points) {
+                $best_lift = $lift;
+                $best_lift_points = $points;
+            }
         }
-        $lift = $this->_chooseLiftWithMaxPoints($result);
-        
-        return $lift;
+
+        return $best_lift;
     }
-    
+
     /**
-     * 
      * @return ILift
      */
-    public function changeStatusOfRandLift()
+    public function getRandomLift()
     {
-        $lift = $this->_lifts[array_rand($this->_lifts)];
-        $statuses = array(Lift::STATUS_FREE, Lift::STATUS_MOVING_UP, Lift::STATUS_MOVING_DOWN);
-        $lift->setStatus($statuses[array_rand($statuses)]);
-        return $lift;
+        return $this->_lifts[array_rand($this->_lifts)];
     }
-    
+
     /**
      * 
      * @param ILift $lift
      */
-    public function setLift(ILift $lift)
+    public function appendLift(ILift $lift)
     {
         $this->_lifts[] = $lift;
-    }
-    
-    /**
-     * 
-     * @param Strategy_Abstract $strategy
-     */
-    public function setStrategy(Strategy_Abstract $strategy)
-    {
-        $this->_strategy = $strategy;
-    }
-    
-    /**
-     * 
-     * @param array $result
-     * @return ILift|null
-     */
-    protected function _chooseLiftWithMaxPoints($result)
-    {
-        usort($result, function($a, $b) {
-            if ($a['points'] == $b['points']) {
-                return 0;
-            }
-            return ($a['points'] > $b['points']) ? 1 : -1;
-        });
-
-        $res = array_pop($result);
-        
-        return ($res['points'] > 0) ? $res['lift'] : null;
     }
 }
 

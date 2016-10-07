@@ -8,68 +8,56 @@ class Lift implements ILift
      *
      * @var int
      */
-    public $id;
+    private $_id;
     
     /**
-     * @var int
+     * @var LiftStatus
      */
-    protected $_status;
+    private $_status;
     
     /**
      *
-     * @var int
+     * @var FloorNumber
      */
-    protected $_currentFloor;
-    
-    const STATUS_FREE = 1;
-    const STATUS_MOVING_UP = 2;
-    const STATUS_MOVING_DOWN = 3;
-    
+    private $_currentFloor;
+
+
     /**
      * 
      * @param int $id
-     * @param int|null $status
-     * @param int|null $currentFloor
+     * @param LiftStatus $status
+     * @param FloorNumber $currentFloor
      */
-    public function __construct($id, $status = null, $currentFloor = null)
+    public function __construct($id, LiftStatus $status, FloorNumber $currentFloor)
     {
-        $this->id            = $id;
-        $this->_status       = !is_null($status) ? $status : self::STATUS_FREE;
-        $this->_currentFloor = !is_null($currentFloor) ? $currentFloor : 1;
+        $this->_id           = $id;
+        $this->_status       = $status;
+        $this->_currentFloor = $currentFloor;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->_id;
     }
     
     /**
      * 
-     * @param int $floor
-     * @return boolean
-     */
-    public function canBeCalled($floor)
-    {
-        $result = false;
-        if ($this->isFree()) {
-            $result = true;
-        }
-        
-        if ($this->isMovingDown() && $this->getCurrentFloor() > $floor) {
-            $result = true;
-        }
-        return $result;
-    }
-    
-    /**
-     * 
-     * @param type $floor
+     * @param FloorNumber $floor
      */
     public function moveTo($floor)
     {
-        echo sprintf('------%sLift #%s start moving to your floor%s-------%s',
-            PHP_EOL, $this->id, PHP_EOL, PHP_EOL
+        echo sprintf('------%sLift #%s start moving to your floor (#%d)%s-------%s',
+            PHP_EOL, $this->_id, $floor, PHP_EOL, PHP_EOL
         );
     }
     
     /**
      * 
-     * @param int
+     * @param LiftStatus $status
      */
     public function setStatus($status)
     {
@@ -78,7 +66,7 @@ class Lift implements ILift
     
     /**
      * 
-     * @return void
+     * @return LiftStatus
      */
     public function getStatus()
     {
@@ -91,7 +79,7 @@ class Lift implements ILift
      */
     public function isFree()
     {
-        return $this->_status == self::STATUS_FREE;
+        return $this->_status->is(LiftStatus::FREE);
     }
     
     /**
@@ -100,7 +88,7 @@ class Lift implements ILift
      */
     public function isMovingDown()
     {
-        return $this->_status == self::STATUS_MOVING_DOWN;
+        return $this->_status->is(LiftStatus::MOVING_DOWN);
     }
     
     /**
@@ -109,12 +97,12 @@ class Lift implements ILift
      */
     public function isMovingUp()
     {
-        return $this->_status == self::STATUS_MOVING_UP;
+        return $this->_status->is(LiftStatus::MOVING_UP);
     }
     
     /**
      * 
-     * @return bool
+     * @return FloorNumber
      */
     public function getCurrentFloor()
     {
